@@ -1,2 +1,3 @@
 # just balls
-https://ilushinvanya.github.io/just-balls/
+
+https://ilushinvanya.github.io/geometric-experiments/just-balls/
