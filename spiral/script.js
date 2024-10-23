@@ -75,11 +75,6 @@ function animate() {
 	spirals.forEach(spiral => spiral.update())
 
 	c.beginPath();
-	c.arc(CenterX, CenterY, 6, 0, Math.PI * 2)
-	c.stroke();
-	c.fill()
-
-	c.beginPath();
 	c.arc(canvas.width / 2, canvas.height / 2, SpiralLoops * 360 * 0.1, 0, 2 * Math.PI);
 	c.strokeStyle = 'white'
 	c.stroke();
