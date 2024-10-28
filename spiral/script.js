@@ -1,8 +1,3 @@
-if (window.location.hash) {
-	const iframe = document.querySelector('iframe')
-	iframe.src = `https://www.youtube.com/embed/${window.location.hash.replace('#', '')}?controls=0`
-}
-
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 canvas.width = window.innerWidth
