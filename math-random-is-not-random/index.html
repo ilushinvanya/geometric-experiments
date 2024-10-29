@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Math Random Average</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
+    <style>
+        form {
+            display: flex;
+            justify-content: center;
+        }
+        form label {
+            display: flex;
+            flex-direction: column;
+        }
+        #result {
+            display: flex;
+            justify-content: center;
+        }
+        #result pre {
+            border: 1px gray solid;
+            padding: 5px;
+            margin: 7px 7px 0;
+        }
+        #result p {
+            padding: 0;
+            margin: 0 14px;
+            font-size: 13px;
+            font-family: monospace;
+        }
+        #totalAverage {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="init(); return false;">
+        <label>
+            <span>Сколько циклов:</span>
+            <input type="number" required id="loops" value="50"/>
+        </label>
+
+        <label>
+            <span>Сколько повторений:</span>
+            <input type="number" required id="count" value="4"/>
+        </label>
+        <button type="submit">Старт</button>
+    </form>
+
+    <hr/>
+    <div id="totalAverage"></div>
+    <hr/>
+    <div id="result"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
