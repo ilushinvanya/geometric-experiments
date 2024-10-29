@@ -1,19 +1,26 @@
+let mode = 'math.random' // crypto.getRandomValues
 
 class RandomGenerator {
+	values = []
+	average = 0
 	constructor(loops) {
 		this.loops = loops
 		this.generateValues()
 		this.getAverageValue()
 	}
-	values = []
-	average = 0
 
 	/**
-	 * Накапливаем результы Math.random() в массиве
+	 * Накапливаем результы Math.random() или crypto.getRandomValues в массиве
 	 */
 	generateValues = () => {
-		for(let i = 1; i <= this.loops; i++){
-			this.values.push(Math.random())
+		if(mode === 'math.random') {
+			for(let i = 0; i <= this.loops; i++){
+				this.values.push(Math.random())
+			}
+		}
+		if(mode === 'crypto.getRandomValues') {
+			this.values = new Uint32Array(this.loops);
+			crypto.getRandomValues(this.values)
 		}
 	}
 
@@ -59,4 +66,9 @@ function init() {
 	const totalAverageElement = document.getElementById('totalAverage')
 	totalAverageElement.innerHTML = 'Общее среднее: ' + totalAverage / results.length
 
+}
+
+function changeMode() {
+	mode = (mode === 'math.random' ? 'crypto.getRandomValues' : 'math.random')
+	return mode
 }
