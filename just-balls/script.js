@@ -293,6 +293,61 @@ class Ball {
 	}
 }
 
+
+class BallPlace {
+	constructor() {
+		this.width = window.innerWidth - 100;  // 50px from left and right
+		this.height = this.width / 2; // 50px from top, 200px from bottom
+		this.x = 50;  // left margin
+		this.y = 50;  // top margin
+	}
+
+	draw() {
+		// Main rectangle
+		c.beginPath();
+		c.lineWidth = 3;
+		c.strokeStyle = 'black';
+		c.rect(this.x, this.y, this.width, this.height);
+		c.stroke();
+
+		// Grid
+		const cellSize = this.width / 120; // Size for 10x10 small cells
+		const blockSize = cellSize * 10; // Size for 10x10 blocks
+
+		// Draw small cells
+		c.lineWidth = 1;
+		c.strokeStyle = 'rgba(0, 55, 255, 0.2)';
+		for (let x = 0; x <= 120; x++) {
+			c.beginPath();
+			c.moveTo(this.x + x * cellSize, this.y);
+			c.lineTo(this.x + x * cellSize, this.y + this.height);
+			c.stroke();
+		}
+		for (let y = 0; y <= 60; y++) {
+			c.beginPath();
+			c.moveTo(this.x, this.y + y * cellSize);
+			c.lineTo(this.x + this.width, this.y + y * cellSize);
+			c.stroke();
+		}
+
+		// Draw large blocks
+		c.lineWidth = 1;
+		c.strokeStyle = 'rgba(0,111,255)';
+		for (let x = 0; x <= 12; x++) {
+			c.beginPath();
+			c.moveTo(this.x + x * blockSize, this.y);
+			c.lineTo(this.x + x * blockSize, this.y + this.height);
+			c.stroke();
+		}
+		for (let y = 0; y <= 6; y++) {
+			c.beginPath();
+			c.moveTo(this.x, this.y + y * blockSize);
+			c.lineTo(this.x + this.width, this.y + y * blockSize);
+			c.stroke();
+		}
+	}
+}
+const place = new BallPlace()
 function animate() {
 	requestAnimationFrame(animate)
 	c.clearRect(0, 0, canvas.width, canvas.height)
@@ -302,8 +357,8 @@ function animate() {
 	if(candidateBall) {
 		candidateBall.drawTrajectory()
 	}
-
 	cursor.draw()
+	place.draw()
 }
 
 animate()
