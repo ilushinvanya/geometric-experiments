@@ -196,9 +196,9 @@ class Ball {
 
 		this.currentVelocity = (hypotenuse / 1.4) / DeltaT
 
-		const leftSide = this.x - this.r < 0
-		const rightSide = this.x + this.r > canvas.width
-		const bottomSide = this.y + this.r > canvas.height
+		const leftSide = this.x <= place.x
+		const rightSide = this.x >= place.x + place.width
+		const bottomSide = this.y >= place.y + place.height
 
 		if(rightSide || leftSide) {
 			this.startVelocity = this.currentVelocity
@@ -206,15 +206,15 @@ class Ball {
 			this.radian = Math.PI - angle
 			this.startY = roundNumber(this.y, 0)
 
-			if(rightSide)   this.startX = roundNumber(canvas.width - this.r, 0)
-			if(leftSide)    this.startX = roundNumber(this.r, 0)
+			if(rightSide)   this.startX = roundNumber(place.x + place.width, 0)
+			if(leftSide)    this.startX = place.x
 		}
 		if(bottomSide) {
 			this.startVelocity = this.currentVelocity
 			this.t = 0
 			this.radian = 2 * Math.PI - angle
 			this.startX = roundNumber(this.x, 0)
-			this.startY = roundNumber(canvas.height - this.r, 0)
+			this.startY = roundNumber(place.y + place.height, 0)
 			if(this.startVelocity < 0.4) {
 				this.startVelocity = 0
 			}
@@ -296,8 +296,8 @@ class Ball {
 
 class BallPlace {
 	constructor() {
-		this.width = window.innerWidth - 100;  // 50px from left and right
-		this.height = this.width / 2; // 50px from top, 200px from bottom
+		this.width = window.innerWidth - 100;  // 50 px from left and right
+		this.height = this.width / 2; // 50 px from top, 200 px from bottom
 		this.x = 50;  // left margin
 		this.y = 50;  // top margin
 	}
@@ -348,9 +348,11 @@ class BallPlace {
 	}
 }
 const place = new BallPlace()
+
 function animate() {
 	requestAnimationFrame(animate)
 	c.clearRect(0, 0, canvas.width, canvas.height)
+	place.draw()
 	balls.forEach(ball => {
 		ball.moveBall()
 	})
@@ -358,7 +360,6 @@ function animate() {
 		candidateBall.drawTrajectory()
 	}
 	cursor.draw()
-	place.draw()
 }
 
 animate()
