@@ -53,6 +53,9 @@ function canvas_arrow(context, fromx, fromy, tox, toy, r){
 
 	context.fill();
 }
+function isMouseInsidePlace(mouseX, mouseY) {
+	return mouseX > place.x && mouseX < place.x + place.width && mouseY > place.y && mouseY < place.y + place.height
+}
 
 let newId = 1
 let balls = [];
@@ -65,6 +68,12 @@ const mouse = {
 addEventListener('mousemove', event => {
 	mouse.x = event.clientX
 	mouse.y = event.clientY
+	if(isMouseInsidePlace(mouse.x, mouse.y)) {
+		document.body.style.cursor = 'crosshair';
+	}
+	else {
+		document.body.style.cursor = 'default';
+	}
 	if(cursor.visible) {
 		candidateBall = new Ball(newId, cursor.x0, cursor.y0, mouse.x, mouse.y, randomSymbol(), 20 + Math.random() * 10)
 		candidateBall.fillPoints()
@@ -72,9 +81,11 @@ addEventListener('mousemove', event => {
 })
 
 addEventListener('mousedown', () => {
-	cursor.visible = true;
-	cursor.x0 = mouse.x;
-	cursor.y0 = mouse.y;
+	if(isMouseInsidePlace(mouse.x, mouse.y)) {
+		cursor.visible = true;
+		cursor.x0 = mouse.x;
+		cursor.y0 = mouse.y;
+	}
 })
 
 addEventListener('mouseup', () => {
@@ -87,6 +98,7 @@ addEventListener('mouseup', () => {
 	cursor.visible = false;
 	cursor.x0 = 0;
 	cursor.y0 = 0;
+
 })
 
 class Cursor {
@@ -121,10 +133,11 @@ class Cursor {
 		const yText = Math.abs(mouse.y - this.y0)
 
 		c.font = `12px serif`;
-		c.fillText('0', this.x0 - 12, this.y0 + 12)
+		c.fillText(`x0 = ${this.x0 - 50}`, this.x0 - 12, this.y0 + 12)
+		c.fillText(`y0 = ${this.y0 - 50}`, this.x0 - 12, this.y0 + 24)
 
-		c.fillText(`x = ${xText}`, mouse.x, this.y0 + 12)
-		c.fillText(`y = ${yText}`, this.x0 + 12, mouse.y)
+		c.fillText(`dy = ${xText}`, mouse.x, this.y0 + 12)
+		c.fillText(`dy = ${yText}`, this.x0 + 12, mouse.y)
 
 
 		c.font = `15px serif`;
@@ -152,7 +165,7 @@ G = 9.8
 DeltaT = 0.2
 class Ball {
 	constructor(newId, startX, startY, endX, endY, symbol, symbolRadius) {
-		this.r = symbolRadius
+		this.r = 30
 		this.startX = startX
 		this.startY = startY
 		this.x = 0
@@ -168,7 +181,6 @@ class Ball {
 
 		this.points = [[0,0]]
 		this.activePoint = 0
-		console.log(newId)
 	}
 	createPoint() {
 		const speed = this.startVelocity;
@@ -200,21 +212,20 @@ class Ball {
 		const rightSide = this.x >= place.x + place.width
 		const bottomSide = this.y >= place.y + place.height
 
-		if(rightSide || leftSide) {
+
+		if(rightSide || leftSide || bottomSide) {
 			this.startVelocity = this.currentVelocity
 			this.t = 0
+			this.startY = oldY
+			this.startX = oldX
+			this.x = oldX
+			this.y = oldY
+		}
+		if(rightSide || leftSide) {
 			this.radian = Math.PI - angle
-			this.startY = roundNumber(this.y, 0)
-
-			if(rightSide)   this.startX = roundNumber(place.x + place.width, 0)
-			if(leftSide)    this.startX = place.x
 		}
 		if(bottomSide) {
-			this.startVelocity = this.currentVelocity
-			this.t = 0
 			this.radian = 2 * Math.PI - angle
-			this.startX = roundNumber(this.x, 0)
-			this.startY = roundNumber(place.y + place.height, 0)
 			if(this.startVelocity < 0.4) {
 				this.startVelocity = 0
 			}
@@ -254,7 +265,6 @@ class Ball {
 				isDifferent = false
 			}
 		}
-		console.log(this.points)
 		this.drawTrajectory()
 	}
 	drawTrajectory() {
