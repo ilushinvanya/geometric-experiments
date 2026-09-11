@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивные дроби</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Изучаем дроби</h1>
+
+        <div class="main-content">
+            <div class="square-container">
+                <div id="square" class="square"></div>
+            </div>
+
+            <div class="fraction-display">
+                <div class="fraction">
+                    <span id="numerator" class="numerator">0</span>
+                    <span class="fraction-line"></span>
+                    <span id="denominator" class="denominator">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="decreaseBtn" class="btn">−</button>
+            <button id="increaseBtn" class="btn btn-primary">Разбить на части</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
